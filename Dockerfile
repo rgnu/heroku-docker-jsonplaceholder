@@ -1,7 +1,5 @@
-FROM nginx:1.23.3
+FROM vimagick/json-server
 
-COPY default.conf.template /etc/nginx/conf.d/default.conf.template
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY static-html /usr/share/nginx/html
+COPY db.json /data/db.json
 
-CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
+ENTRYPOINT json-server -h 0.0.0.0 -p $PORT -w /data/db.json
